@@ -121,7 +121,20 @@ export default function Home() {
 
         <div className="grid gap-4">
           {filteredScripts.map((script) => (
-            <Card key={script.id} className="p-4">
+            <Card
+              key={script.id}
+              className="p-4 cursor-pointer hover:bg-gray-50 transition-colors"
+              onClick={() => {
+                handleCopy(script);
+                // Add visual feedback
+                const card = document.getElementById(`script-${script.id}`);
+                if (card) {
+                  card.classList.add('bg-green-50');
+                  setTimeout(() => card.classList.remove('bg-green-50'), 200);
+                }
+              }}
+              id={`script-${script.id}`}
+            >
               <div className="space-y-2">
                 <div className="flex justify-between items-start">
                   <h3 className="font-semibold">问题：{script.question}</h3>
@@ -129,20 +142,16 @@ export default function Home() {
                     <Button
                       variant="ghost"
                       size="sm"
-                      onClick={() => handleToggleFavorite(script)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleToggleFavorite(script);
+                      }}
                     >
                       <Star
                         className={`h-4 w-4 ${
                           script.isFavorite ? "fill-yellow-400 text-yellow-400" : "text-gray-400"
                         }`}
                       />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => handleCopy(script)}
-                    >
-                      <Copy className="h-4 w-4" />
                     </Button>
                   </div>
                 </div>
