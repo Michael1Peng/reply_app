@@ -1,30 +1,19 @@
 import { SalesScript, SalesScripts, SearchHistory } from "./types";
+import { SALES_SCRIPTS } from "@/constants/scripts";
 
-const STORAGE_KEY = "sales-scripts";
+const STORAGE_KEY = "sales-scripts-state";
 const SEARCH_HISTORY_KEY = "search-history";
 const MAX_SEARCH_HISTORY = 10;
 
 export const loadScripts = (): SalesScripts => {
-  if (typeof window === "undefined") return [];
+  if (typeof window === "undefined") return SALES_SCRIPTS;
   const stored = localStorage.getItem(STORAGE_KEY);
-  return stored ? JSON.parse(stored) : [];
+  return stored ? JSON.parse(stored) : SALES_SCRIPTS;
 };
 
 export const saveScripts = (scripts: SalesScripts): void => {
   if (typeof window === "undefined") return;
   localStorage.setItem(STORAGE_KEY, JSON.stringify(scripts));
-};
-
-export const addScript = (scripts: SalesScripts, script: SalesScript): SalesScripts => {
-  const newScripts = [...scripts, { ...script, useCount: 0, isFavorite: false }];
-  saveScripts(newScripts);
-  return newScripts;
-};
-
-export const removeScript = (scripts: SalesScripts, id: string): SalesScripts => {
-  const newScripts = scripts.filter((script) => script.id !== id);
-  saveScripts(newScripts);
-  return newScripts;
 };
 
 export const searchScripts = (

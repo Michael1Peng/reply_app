@@ -6,11 +6,9 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
 import { Copy, Star, History, Search } from "lucide-react"
-import { ScriptDialog } from "./components/script-dialog"
 import { SalesScript, SearchHistory } from "@/lib/types"
+import { SALES_SCRIPTS } from "@/constants/scripts"
 import { 
-  loadScripts, 
-  saveScripts, 
   searchScripts, 
   getCategories,
   trackScriptUsage,
@@ -20,20 +18,17 @@ import {
 } from "@/lib/storage"
 
 export default function Home() {
-  const [scripts, setScripts] = useState<SalesScript[]>([])
+  const [scripts, setScripts] = useState<SalesScript[]>(SALES_SCRIPTS)
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("all")
-  const [filteredScripts, setFilteredScripts] = useState<SalesScript[]>([])
+  const [filteredScripts, setFilteredScripts] = useState<SalesScript[]>(SALES_SCRIPTS)
   const [categories, setCategories] = useState<string[]>([])
   const [searchHistory, setSearchHistory] = useState<SearchHistory[]>([])
   const [showHistory, setShowHistory] = useState(false)
 
   useEffect(() => {
-    const savedScripts = loadScripts()
     const history = loadSearchHistory()
-    setScripts(savedScripts)
-    setFilteredScripts(savedScripts)
-    setCategories(getCategories(savedScripts))
+    setCategories(getCategories(SALES_SCRIPTS))
     setSearchHistory(history)
   }, [])
 
@@ -47,14 +42,6 @@ export default function Home() {
       setSearchHistory(history)
     }
     setShowHistory(false)
-  }
-
-  const handleSave = (script: SalesScript) => {
-    const newScripts = [...scripts, script]
-    setScripts(newScripts)
-    setFilteredScripts(searchScripts(newScripts, searchQuery, selectedCategory))
-    setCategories(getCategories(newScripts))
-    saveScripts(newScripts)
   }
 
   const handleCopy = (script: SalesScript) => {
@@ -79,7 +66,6 @@ export default function Home() {
       <div className="flex flex-col gap-6">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold">销售话术管理</h1>
-          <ScriptDialog onSave={handleSave} categories={categories} />
         </div>
 
         <div className="relative">
@@ -170,7 +156,7 @@ export default function Home() {
           ))}
           {filteredScripts.length === 0 && (
             <div className="text-center text-gray-500 py-8">
-              {scripts.length === 0 ? "暂无话术，请添加" : "没有找到匹配的话术"}
+              没有找到匹配的话术
             </div>
           )}
         </div>
