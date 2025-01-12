@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
-import { Copy, Star, History, Search } from "lucide-react"
+import { Star, History, Search } from "lucide-react"
 import { SalesScript, SearchHistory } from "@/lib/types"
 import { SALES_SCRIPTS } from "@/constants/scripts"
 import { 

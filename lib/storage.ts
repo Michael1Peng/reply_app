@@ -1,4 +1,4 @@
-import { SalesScript, SalesScripts, SearchHistory } from "./types";
+import { SalesScripts, SearchHistory } from "./types";
 import { SALES_SCRIPTS } from "@/constants/scripts";
 
 const STORAGE_KEY = "sales-scripts-state";
