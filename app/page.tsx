@@ -25,6 +25,18 @@ export default function Home() {
   const [categories, setCategories] = useState<string[]>([])
   const [searchHistory, setSearchHistory] = useState<SearchHistory[]>([])
   const [showHistory, setShowHistory] = useState(false)
+  const [commonTags] = useState([
+    "需求确认",
+    "创业介绍",
+    "收益说明",
+    "自我介绍",
+    "产品介绍",
+    "主理人",
+    "加盟费用",
+    "收益",
+    "旅行团",
+    "创业"
+  ])
 
   useEffect(() => {
     const history = loadSearchHistory()
@@ -111,12 +123,38 @@ export default function Home() {
                   className="w-full px-4 py-2 text-left hover:bg-gray-100 flex items-center gap-2"
                   onClick={() => handleHistoryClick(item.query)}
                 >
-                  <Search className="h-4 w-4 text-gray-400" />
                   {item.query}
                 </button>
               ))}
             </div>
           )}
+          {/* Search History Tags */}
+          {searchHistory.length > 0 && (
+            <div className="mt-2 flex flex-wrap gap-2">
+              {searchHistory.map((item, index) => (
+                <button
+                  key={index}
+                  className="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded-full transition-colors"
+                  onClick={() => handleHistoryClick(item.query)}
+                >
+                  {item.query}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Common Search Tags */}
+        <div className="flex flex-wrap gap-2">
+          {commonTags.map((tag) => (
+            <button
+              key={tag}
+              className="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded-full transition-colors"
+              onClick={() => handleSearch(tag, selectedCategory)}
+            >
+              {tag}
+            </button>
+          ))}
         </div>
 
         <div className="grid gap-4">
